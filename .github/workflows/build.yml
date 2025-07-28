@@ -31,8 +31,20 @@ jobs:
       - name: Restore NuGet Packages
         run: dotnet restore
 
-      - name: Build Project (.NET 9)
-        run: msbuild /t:AssetStudioGUI:publish /p:Configuration=Release /p:TargetFramework=net9.0-windows /p:SelfContained=false /verbosity:minimal
+      - name: Build Texture2DDecoderNative (Win32)
+        run: msbuild Texture2DDecoderNative/Texture2DDecoderNative.vcxproj /p:Configuration=Release /p:Platform=Win32
+
+      - name: Build Texture2DDecoderNative (x64)
+        run: msbuild Texture2DDecoderNative/Texture2DDecoderNative.vcxproj /p:Configuration=Release /p:Platform=x64
+
+      - name: Build AssetStudioFBXNative (Win32)
+        run: msbuild AssetStudioFBXNative/AssetStudioFBXNative.vcxproj /p:Configuration=Release /p:Platform=Win32
+
+      - name: Build AssetStudioFBXNative (x64)
+        run: msbuild AssetStudioFBXNative/AssetStudioFBXNative.vcxproj /p:Configuration=Release /p:Platform=x64
+
+      - name: Build AssetStudio (.NET 9)
+        run: msbuild AssetStudioGUI/AssetStudioGUI.csproj /t:Publish /p:Configuration=Release /p:TargetFramework=net9.0-windows /p:SelfContained=false
 
       - name: Upload .NET 9 Artifact
         uses: actions/upload-artifact@v4
