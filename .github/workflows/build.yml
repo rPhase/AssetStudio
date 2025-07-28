@@ -44,7 +44,15 @@ jobs:
         run: msbuild AssetStudioFBXNative/AssetStudioFBXNative.vcxproj /p:Configuration=Release /p:Platform=x64
 
       - name: Build AssetStudio (.NET 9)
-        run: msbuild AssetStudioGUI/AssetStudioGUI.csproj /t:Publish /p:Configuration=Release /p:TargetFramework=net9.0-windows /p:SelfContained=false
+        shell: pwsh
+        run: |
+          $solutionDir = (Get-Location).Path + "\"
+          msbuild AssetStudioGUI/AssetStudioGUI.csproj `
+          /t:Publish `
+          /p:Configuration=Release `
+          /p:TargetFramework=net9.0-windows `
+          /p:SelfContained=false `
+          /p:SolutionDir="$solutionDir"
 
       - name: Upload .NET 9 Artifact
         uses: actions/upload-artifact@v4
